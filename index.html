@@ -48,14 +48,17 @@
       <div id="imageContainer"></div>
     </div>
     <div class="result-container">
-      <h2>조합 결과</h2>
-      <canvas id="resultCanvas" width="500" height="500"></canvas>
+  <h2>조합 결과</h2>
+  <canvas id="resultCanvas" width="500" height="500"></canvas>
+  <button onclick="downloadImage()">이미지 다운로드</button>
     </div>
     <div class="video-list">
       <h2>동영상 선택</h2>
       <div id="videoContainer"></div>
     </div>
   </div>
+  
+</div>
 
     <script>
   const imageContainer = document.getElementById('imageContainer');
@@ -126,6 +129,14 @@ const render = () => {
     const imageHeight = resultCanvas.height / 3;
     ctx.drawImage(selectedImage, 0, 0, resultCanvas.width, imageHeight);
   }
+}
+      
+  function downloadImage() {
+  const dataURL = resultCanvas.toDataURL('image/png');
+  const tempLink = document.createElement('a');
+  tempLink.href = dataURL;
+  tempLink.download = 'combined-image.png';
+  tempLink.click();
 }
   </script>
 </body>
