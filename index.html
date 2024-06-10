@@ -68,13 +68,13 @@
 </div>
 
     <script>
-  const imageContainer = document.getElementById('imageContainer');
+const imageContainer = document.getElementById('imageContainer');
 const videoContainer = document.getElementById('videoContainer');
 const resultCanvas = document.getElementById('resultCanvas');
 const ctx = resultCanvas.getContext('2d');
-
 let selectedImage;
 let selectedVideo;
+let videoStream;
 
 // 이미지 링크 배열 (예시)
 const imageLinks = [
@@ -117,28 +117,34 @@ videoLinks.forEach(link => {
   video.controls = true;
   video.style.maxWidth = '100%';
   video.style.cursor = 'pointer';
-  video.addEventListener('click', () => {
+  video.addEventListener('click', async () => {
     selectedVideo = video;
+    videoStream = video.captureStream();
     render();
   });
   videoContainer.appendChild(video);
 });
 
 // 조합 결과 렌더링
-const render = () => {
+const render = async () => {
   ctx.clearRect(0, 0, resultCanvas.width, resultCanvas.height);
 
   if (selectedImage && selectedVideo) {
-    // 동영상을 전체 Canvas 크기로 렌더링
-    ctx.drawImage(selectedVideo, 0, 0, resultCanvas.width, resultCanvas.height);
+    const imageCapture = new ImageCapture(videoStream.getTracks()[0]);
+    const bitmap = await imageCapture.grabFrame();
+    const videoHeight = resultCanvas.height;
+    const videoWidth = (videoHeight / bitmap.height) * bitmap.width;
+
+    // 동영상을 Canvas 크기에 맞게 렌더링
+    ctx.drawImage(bitmap, 0, 0, videoWidth, videoHeight);
 
     // 이미지를 Canvas 상단 1/3 크기로 렌더링
     const imageHeight = resultCanvas.height / 3;
     ctx.drawImage(selectedImage, 0, 0, resultCanvas.width, imageHeight);
   }
-}
-      
-  function downloadImage() {
+};
+
+function downloadImage() {
   const dataURL = resultCanvas.toDataURL('image/png');
   const tempLink = document.createElement('a');
   tempLink.href = dataURL;
