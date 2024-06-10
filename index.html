@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>make imoji</title>
+<style>
+  body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.image-list, .video-list {
+  width: 25%;
+  max-height: 500px;
+  overflow-y: auto;
+  text-align: left;
+}
+
+.image-list img, .video-list video {
+  max-width: 100%;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.result-container {
+  width: 40%;
+}
+
+#resultCanvas {
+  background-color: #f0f0f0;
+}
+  </style>
+  
+</head>
+
+  <body>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>이미지/동영상 조합기</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>이미지/동영상 조합기</h1>
+  <div class="container">
+    <div class="image-list">
+      <h2>이미지 선택</h2>
+      <div id="imageContainer"></div>
+    </div>
+    <div class="result-container">
+      <h2>조합 결과</h2>
+      <canvas id="resultCanvas" width="500" height="500"></canvas>
+    </div>
+    <div class="video-list">
+      <h2>동영상 선택</h2>
+      <div id="videoContainer"></div>
+    </div>
+  </div>
+
+    <script>
+  const imageContainer = document.getElementById('imageContainer');
+const videoContainer = document.getElementById('videoContainer');
+const resultCanvas = document.getElementById('resultCanvas');
+const ctx = resultCanvas.getContext('2d');
+
+let selectedImage;
+let selectedVideo;
+
+// 이미지 링크 배열 (예시)
+const imageLinks = [
+  'https://example.com/image1.png',
+  'https://example.com/image2.png',
+  // 더 추가할 수 있습니다.
+];
+
+// 동영상 링크 배열 (예시)
+const videoLinks = [
+  'https://example.com/video1.mp4',
+  'https://example.com/video2.mp4',
+  // 더 추가할 수 있습니다.
+];
+
+// 이미지 목록 생성
+imageLinks.forEach(link => {
+  const img = new Image();
+  img.src = link;
+  img.style.cursor = 'pointer';
+  img.addEventListener('click', () => {
+    selectedImage = img;
+    render();
+  });
+  imageContainer.appendChild(img);
+});
+
+// 동영상 목록 생성
+videoLinks.forEach(link => {
+  const video = document.createElement('video');
+  video.src = link;
+  video.controls = true;
+  video.style.maxWidth = '100%';
+  video.style.cursor = 'pointer';
+  video.addEventListener('click', () => {
+    selectedVideo = video;
+    render();
+  });
+  videoContainer.appendChild(video);
+});
+
+// 조합 결과 렌더링
+const render = () => {
+  ctx.clearRect(0, 0, resultCanvas.width, resultCanvas.height);
+
+  if (selectedImage && selectedVideo) {
+    ctx.drawImage(selectedVideo, 0, 0, resultCanvas.width, resultCanvas.height);
+    ctx.drawImage(selectedImage, 0, 0, resultCanvas.width, resultCanvas.height);
+  }
+}
+  </script>
+</body>
+</html>
