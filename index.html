@@ -116,7 +116,7 @@ button {
  <div class="result-container">
     <div class="canvas-container">
       <canvas id="resultCanvas" width="500" height="500"></canvas>
-      <button onclick="downloadImage()">이미지 다운로드</button>
+      <button onclick="downloadCanvasImage()">다운로드</button>
     </div>
   </div>
     <div class="video-list">
@@ -222,16 +222,18 @@ const render = async () => {
   }
 };
 
- function downloadImage() {
-    resultCanvas.toBlob(function(blob) {
-      const url = URL.createObjectURL(blob);
-      const tempLink = document.createElement('a');
-      tempLink.href = url;
-      tempLink.download = 'combined-image.png';
-      tempLink.click();
-      URL.revokeObjectURL(url);
-    }, 'image/png');
-  }
+function downloadCanvasImage() {
+  const canvas = document.getElementById('resultCanvas');
+  canvas.toBlob(function(blob) {
+    const url = URL.createObjectURL(blob);
+    const tempLink = document.createElement('a');
+    tempLink.href = url;
+    tempLink.download = 'canvas-screenshot.png';
+    tempLink.click();
+    URL.revokeObjectURL(url);
+  }, 'image/png');
+}
+      
   </script>
 </body>
 </html> 
