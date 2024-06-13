@@ -80,6 +80,7 @@
 <body>
   
   <div class="title">오늘의 당신에게 </div>
+  
     <div class="container">
       <div class="image-list">
         <h2>문장을 골라주세요</h2>
@@ -93,18 +94,15 @@
   </div>
   
   <div class="container">
-    <div class="image-list">
-      <div id="imageContainer"></div>
-    </div>
-    <div class="result-container">
-  <canvas id="resultCanvas" width="500" height="500"></canvas>
-  <button onclick="downloadImage()">이미지 다운로드</button>
-    </div>
-    <div class="video-list">
-      <div id="videoContainer"></div>
-    </div>
+  <div class="image-list">
+    <div id="imageContainer"></div>
   </div>
-  
+  <div class="result-container">
+    <div id="videoContainer"></div>
+  </div>
+  <div class="video-list">
+    <div id="videoSourceContainer"></div>
+  </div>  
 </div>
 
     <script>
@@ -147,7 +145,13 @@ const videoLinks = [
   // 더 추가할 수 있습니다.
 ];
 
-// 이미지 목록 생성
+const imageContainer = document.getElementById('imageContainer');
+const videoSourceContainer = document.getElementById('videoSourceContainer');
+const videoContainer = document.getElementById('videoContainer');
+let selectedImage;
+let selectedVideo;
+
+// 이미지 목록 생성 (기존 코드 유지)
 imageLinks.forEach(link => {
   const img = new Image();
   img.src = link;
@@ -166,31 +170,29 @@ videoLinks.forEach(link => {
   video.controls = true;
   video.style.maxWidth = '100%';
   video.style.cursor = 'pointer';
-  video.addEventListener('click', async () => {
+  video.addEventListener('click', () => {
     selectedVideo = video;
-    videoStream = video.captureStream();
     render();
   });
-  videoContainer.appendChild(video);
+  videoSourceContainer.appendChild(video);
 });
 
 // 조합 결과 렌더링
-const render = async () => {
-  ctx.clearRect(0, 0, resultCanvas.width, resultCanvas.height);
+const render = () => {
+  videoContainer.innerHTML = ''; // 기존 비디오 요소 제거
+
   if (selectedImage && selectedVideo) {
-    const imageCapture = new ImageCapture(videoStream.getTracks()[0]);
-    const bitmap = await imageCapture.grabFrame();
-    const videoHeight = resultCanvas.height;
-    const videoWidth = (videoHeight / bitmap.height) * bitmap.width;
+    const combinedVideo = document.createElement('video');
+    combinedVideo.width = resultCanvas.width;
+    combinedVideo.height = resultCanvas.height;
+    combinedVideo.autoplay = true;
+    combinedVideo.controls = true;
 
-    // 동영상을 Canvas 크기에 맞게 렌더링
-    ctx.drawImage(bitmap, 0, 0, videoWidth, videoHeight);
+    const canvasStream = resultCanvas.captureStream();
+    const videoTrack = canvasStream.getVideoTracks()[0];
+    combinedVideo.srcObject = new MediaStream([videoTrack]);
 
-    // 이미지를 Canvas 크기에 맞게 렌더링
-    const imageRatio = selectedImage.width / selectedImage.height;
-    const imageHeight = resultCanvas.height;
-    const imageWidth = imageHeight * imageRatio;
-    ctx.drawImage(selectedImage, 0, 0, imageWidth, imageHeight);
+    videoContainer.appendChild(combinedVideo);
   }
 };
 
