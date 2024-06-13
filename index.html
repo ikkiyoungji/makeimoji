@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>오늘의 당신에게</title>
   
-  <style>
+ <style>
 *{
   margin: 0;
   padding: 0;
@@ -44,10 +44,11 @@
 }
 
 .image-list, .video-list {
+  margin-bottom: 1rem;
   width: 25%;
   max-height: 500px;
   overflow-y: auto;
-  text-align: left;
+  text-align: center;
 }
 
 .image-list img, .video-list video {
@@ -68,23 +69,34 @@
 </head>
 
 <body>
+  
   <div class="title">오늘의 당신에게 </div>
+    <div class="container">
+      <div class="image-list">
+        <h2>문장을 골라주세요</h2>
+      </div>
+      <div class="result-container">
+        <h2>조합 결과</h2>
+      </div>
+      <div class="video-list">
+        <h2>영상을 골라주세요</h2>
+      </div>   
+  </div>
   
   <div class="container">
     <div class="image-list">
-      <h2>글귀를 골라보세요</h2>
       <div id="imageContainer"></div>
     </div>
     <div class="result-container">
-  <h2>조합 결과</h2>
   <canvas id="resultCanvas" width="500" height="500"></canvas>
   <button onclick="downloadImage()">이미지 다운로드</button>
     </div>
     <div class="video-list">
-      <h2>영상을 골라보세요</h2>
       <div id="videoContainer"></div>
     </div>
   </div>
+  
+</div>
 
     <script>
 const imageContainer = document.getElementById('imageContainer');
