@@ -106,6 +106,114 @@
     </div>
   </div>
 
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>오늘의 당신에게</title>
+  
+ <style>
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+  
+@font-face {
+    font-family: 'KCCAhnjunggeun';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/KCCAhnjunggeun.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+  
+@font-face {
+    font-family: 'SunBatang-Light';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/SunBatang-Light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+  
+  body {
+  text-align: center;
+}
+  
+  .title {
+    font-family: 'KCCAhnjunggeun';
+    font-size : 3rem;
+    padding : 5%, 0%;
+  }
+
+.container {
+  font-size : 0.8rem;
+  font-family: 'SunBatang-Light';
+  display: flex;
+  justify-content: space-around;
+}
+
+.image-list, .video-list {
+  margin-bottom: 1rem;
+  width: 25%;
+  max-height: 500px;
+  overflow-y: auto;
+  text-align: center;
+}
+
+.image-list img{
+  padding-top: 2%;
+  padding-bottom: 4%;
+  max-width: 90%;
+  border-bottom: 1px dotted black;
+  cursor: pointer;
+}
+
+.video-list video {
+  max-width: 100%;
+  border-bottom: 1px dotted black;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.result-container {
+  width: 40%;
+}
+
+#resultCanvas {
+  background-color: #f0f0f0;
+}
+  </style>
+  
+</head>
+
+<body>
+  
+  <div class="title">오늘의 당신에게 </div>
+  
+    <div class="container">
+      <div class="image-list">
+        <h2>문장을 골라주세요</h2>
+      </div>
+      <div class="result-container">
+        <h2>조합 결과</h2>
+      </div>
+      <div class="video-list">
+        <h2>영상을 골라주세요</h2>
+      </div>   
+  </div>
+  
+  <div class="container">
+    <div class="image-list">
+      <div id="imageContainer"></div>
+    </div>
+  <div class="result-container">
+  <canvas id="resultCanvas" width="500" height="500"></canvas>
+  <button onclick="downloadImage()">이미지 다운로드</button>
+    </div>
+    <div class="video-list">
+      <div id="videoContainer"></div>
+    </div>
+  </div>
+
     <script>
 const imageContainer = document.getElementById('imageContainer');
 const videoContainer = document.getElementById('videoContainer');
@@ -180,8 +288,10 @@ const render = async () => {
     const bitmap = await imageCapture.grabFrame();
     const videoHeight = resultCanvas.height;
     const videoWidth = (videoHeight / bitmap.height) * bitmap.width;
+    
     // 동영상을 Canvas 크기에 맞게 렌더링
     ctx.drawImage(bitmap, 0, 0, videoWidth, videoHeight);
+    
     // 이미지를 Canvas 크기에 맞게 렌더링
     const imageRatio = selectedImage.width / selectedImage.height;
     const imageHeight = resultCanvas.height;
