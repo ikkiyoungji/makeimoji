@@ -222,7 +222,7 @@ const render = async () => {
   }
 };
 
-function downloadCanvasImage() {
+  function downloadCanvasImage() {
   const canvas = document.getElementById('resultCanvas');
   canvas.toBlob(function(blob) {
     const url = URL.createObjectURL(blob);
@@ -231,7 +231,7 @@ function downloadCanvasImage() {
     tempLink.download = 'canvas-screenshot.png';
     tempLink.click();
     URL.revokeObjectURL(url);
-  }, 'image/png');
+  }, 'image/png', undefined); // 세 번째 매개변수로 undefined 전달
 }
       
   </script>
