@@ -141,8 +141,7 @@ const render = async () => {
     // 동영상을 Canvas 크기에 맞게 렌더링
     ctx.drawImage(bitmap, 0, 0, videoWidth, videoHeight);
 
-    // 이미지를 Canvas 상단 1/3 크기로 렌더링
-    const imageHeight = resultCanvas.height / 3;
+    // 이미지를 Canvas 상단 1/3 크기로 렌더
     ctx.drawImage(selectedImage, 0, 0, resultCanvas.width, imageHeight);
   }
 };
