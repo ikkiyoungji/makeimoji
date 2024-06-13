@@ -203,11 +203,22 @@ const render = async () => {
     const videoWidth = (videoHeight / bitmap.height) * bitmap.width;
     // 동영상을 Canvas 크기에 맞게 렌더링
     ctx.drawImage(bitmap, 0, 0, videoWidth, videoHeight);
-    // 이미지를 Canvas 크기에 맞게 렌더링
+
+    // 이미지를 Canvas 크기에 맞추어 렌더링
     const imageRatio = selectedImage.width / selectedImage.height;
-    const imageHeight = resultCanvas.height;
-    const imageWidth = imageHeight * imageRatio;
-    ctx.drawImage(selectedImage, 0, 0, imageWidth, imageHeight);
+    let imageWidth, imageHeight;
+    if (imageRatio > resultCanvas.width / resultCanvas.height) {
+      // 가로 길이에 맞춰 크기 조정
+      imageWidth = resultCanvas.width;
+      imageHeight = imageWidth / imageRatio;
+    } else {
+      // 세로 길이에 맞춰 크기 조정
+      imageHeight = resultCanvas.height;
+      imageWidth = imageHeight * imageRatio;
+    }
+    const x = (resultCanvas.width - imageWidth) / 2;
+    const y = (resultCanvas.height - imageHeight) / 2;
+    ctx.drawImage(selectedImage, x, y, imageWidth, imageHeight);
   }
 };
 
