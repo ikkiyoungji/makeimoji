@@ -65,7 +65,7 @@
   padding-top: 2%;
   padding-bottom: 4%;
   max-width: 80%;
-  border-bottom: 2px dotted black;
+  border-bottom: 3px dotted #8FBCBB;
   cursor: pointer;
 }
 
@@ -92,7 +92,7 @@ button {
 }
 
 #resultCanvas {
-  border: 0.5px #4C566A;
+  border: 0.5px solid #8FBCBB;
 }
 
 .footer{
@@ -101,6 +101,11 @@ button {
      font-family: 'SunBatang-Light';
      line-height: 1.6;
      padding: 3%;
+}
+
+.underline {
+    padding-bottom: 2%;
+    border-bottom: 3px dotted #708090; 
 }
    
   </style>
@@ -111,13 +116,13 @@ button {
   
     <div class="container2">
       <div class="image-list">
-        <h2>문장을 골라주세요</h2>
+        <h2><span class="underline">문장을 골라주세요</span></h2>
       </div>
       <div class="result-container">
-        <h2>조합 결과</h2>
+        <h2><span class="underline">조합 결과</span></h2>
       </div>
       <div class="video-list">
-        <h2>영상을 골라주세요</h2>
+        <h2><span class="underline">영상을 골라주세요</span></h2>
       </div>   
   </div>
   
@@ -138,7 +143,6 @@ button {
      <div class="footer">
        <p> 〈오늘의 당신에게〉 웹페이지는 한국의 50대 이상의 문화 중 서로의 안부를 이미지(글귀와 사진이 합성된)로 묻고 나누는 이미지 기반 대화에서 출발했습니다. 생성형 Ai가 만든 이미지와 제안한 글귀로 당신의 안부를 조합해보세요. </p>
        <p> 기획 및 제작 : 조수아, 강나원, 김지영, copolit(이미지), runway(영상), claude(코딩) </p> </div>
-
     <script>
 const imageContainer = document.getElementById('imageContainer');
 const videoContainer = document.getElementById('videoContainer');
